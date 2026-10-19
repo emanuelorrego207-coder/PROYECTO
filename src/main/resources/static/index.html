@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mantenimiento de Equipos</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Segoe UI, Arial, sans-serif; background: #eef2f7; color: #1f2933; }
+        header { background: #365F91; color: white; padding: 18px 24px; }
+        header h1 { margin: 0; font-size: 22px; }
+        header p { margin: 4px 0 0; font-size: 13px; opacity: .85; }
+        .contenedor { display: flex; gap: 20px; padding: 20px; max-width: 1150px; margin: auto; flex-wrap: wrap; }
+        nav { flex: 0 0 230px; background: white; border-radius: 10px; padding: 12px; height: fit-content; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+        nav button { display: block; width: 100%; text-align: left; padding: 11px 12px; margin-bottom: 6px; border: none;
+            background: transparent; border-radius: 7px; font-size: 15px; cursor: pointer; color: #1f2933; }
+        nav button:hover { background: #e8eef8; }
+        nav button.activo { background: #365F91; color: white; }
+        main { flex: 1; min-width: 300px; background: white; border-radius: 10px; padding: 22px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+        h2 { margin-top: 0; color: #365F91; }
+        label { display: block; margin: 12px 0 4px; font-weight: 600; font-size: 14px; }
+        input { width: 100%; padding: 9px; border: 1px solid #cbd2d9; border-radius: 6px; font-size: 14px; }
+        .btn { margin-top: 16px; padding: 10px 18px; background: #365F91; color: white; border: none; border-radius: 6px; font-size: 15px; cursor: pointer; }
+        .btn:hover { background: #2b4c75; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th, td { padding: 9px; border-bottom: 1px solid #e4e7eb; text-align: left; }
+        th { background: #e8eef8; }
+        .etiqueta { padding: 3px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; }
+        .PENDIENTE { background: #fff3cd; color: #8a6d00; }
+        .ASIGNADA { background: #dbeafe; color: #1e40af; }
+        .FINALIZADA { background: #d1fae5; color: #065f46; }
+        .mensaje { margin-top: 16px; padding: 12px; border-radius: 6px; white-space: pre-wrap; font-family: Consolas, monospace; font-size: 14px; }
+        .ok { background: #d1fae5; color: #065f46; }
+        .error { background: #fde2e2; color: #9b1c1c; }
+        .info { background: #f3f4f6; color: #1f2933; }
+        .seccion { display: none; }
+        .seccion.visible { display: block; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Sistema de Mantenimiento de Equipos</h1>
+    <p>Caso 2 · Jeronimo Velasquez · Juan Andres Rios · Emanuel Orrego</p>
+</header>
+
+<div class="contenedor">
+    <nav>
+        <button data-seccion="listar" class="activo">1. Ver solicitudes</button>
+        <button data-seccion="reportar">2. Reportar falla</button>
+        <button data-seccion="asignar">3. Asignar técnico</button>
+        <button data-seccion="finalizar">4. Finalizar mantenimiento</button>
+        <button data-seccion="reporte">5. Generar reporte</button>
+    </nav>
+
+    <main>
+        <!-- 1. LISTAR -->
+        <section id="listar" class="seccion visible">
+            <h2>Solicitudes de mantenimiento</h2>
+            <table>
+                <thead><tr><th>ID</th><th>Equipo</th><th>Ubicación</th><th>Estado equipo</th><th>Técnico</th><th>Solicitud</th></tr></thead>
+                <tbody id="tabla"></tbody>
+            </table>
+            <button class="btn" onclick="listar()">Actualizar</button>
+        </section>
+
+        <!-- 2. REPORTAR -->
+        <section id="reportar" class="seccion">
+            <h2>Reportar una falla</h2>
+            <label>ID del equipo</label><input id="r-equipoId" type="number" value="1">
+            <label>Nombre del equipo</label><input id="r-nombre" value="Computador Dell">
+            <label>Ubicación</label><input id="r-ubicacion" value="Laboratorio de Sistemas">
+            <label>Descripción de la falla</label><input id="r-descripcion" value="El computador no enciende">
+            <button class="btn" onclick="reportar()">Reportar</button>
+            <div id="r-msg"></div>
+        </section>
+
+        <!-- 3. ASIGNAR -->
+        <section id="asignar" class="seccion">
+            <h2>Asignar técnico</h2>
+            <label>ID de la solicitud</label><input id="a-id" type="number" value="3">
+            <label>ID del técnico</label><input id="a-tecnicoId" type="number" value="101">
+            <label>Nombre del técnico</label><input id="a-nombre" value="Juan Ríos">
+            <label>Especialidad</label><input id="a-especialidad" value="Hardware">
+            <button class="btn" onclick="asignar()">Asignar</button>
+            <div id="a-msg"></div>
+        </section>
+
+        <!-- 4. FINALIZAR -->
+        <section id="finalizar" class="seccion">
+            <h2>Finalizar mantenimiento</h2>
+            <label>ID de la solicitud</label><input id="f-id" type="number" value="3">
+            <button class="btn" onclick="finalizar()">Finalizar</button>
+            <div id="f-msg"></div>
+        </section>
+
+        <!-- 5. REPORTE -->
+        <section id="reporte" class="seccion">
+            <h2>Generar reporte</h2>
+            <label>ID de la solicitud</label><input id="g-id" type="number" value="1">
+            <button class="btn" onclick="verReporte()">Ver reporte</button>
+            <div id="g-msg"></div>
+        </section>
+    </main>
+</div>
+
+<script>
+    const API = "/api/solicitudes";
+
+    // Cambiar de opción en el menú
+    document.querySelectorAll("nav button").forEach(boton => {
+        boton.addEventListener("click", () => {
+            document.querySelectorAll("nav button").forEach(b => b.classList.remove("activo"));
+            document.querySelectorAll(".seccion").forEach(s => s.classList.remove("visible"));
+            boton.classList.add("activo");
+            document.getElementById(boton.dataset.seccion).classList.add("visible");
+            if (boton.dataset.seccion === "listar") listar();
+        });
+    });
+
+    function mostrar(id, texto, tipo) {
+        document.getElementById(id).innerHTML = '<div class="mensaje ' + tipo + '"></div>';
+        document.querySelector("#" + id + " .mensaje").textContent = texto;
+    }
+
+    async function enviar(url, metodo, datos) {
+        const opciones = { method: metodo, headers: { "Content-Type": "application/json" } };
+        if (datos) opciones.body = JSON.stringify(datos);
+        const respuesta = await fetch(url, opciones);
+        const texto = await respuesta.text();
+        if (!respuesta.ok) throw new Error(texto || "Error " + respuesta.status);
+        return texto;
+    }
+
+    async function listar() {
+        const tabla = document.getElementById("tabla");
+        try {
+            const solicitudes = JSON.parse(await enviar(API, "GET"));
+            if (solicitudes.length === 0) {
+                tabla.innerHTML = '<tr><td colspan="6">No hay solicitudes</td></tr>';
+                return;
+            }
+            tabla.innerHTML = "";
+            solicitudes.forEach(s => {
+                const fila = document.createElement("tr");
+                const tecnico = s.tecnico ? s.tecnico.nombre + " (" + s.tecnico.especialidad + ")" : "Sin asignar";
+                [s.id, s.equipo.nombre, s.equipo.ubicacion, s.equipo.estado, tecnico].forEach(valor => {
+                    const celda = document.createElement("td");
+                    celda.textContent = valor;
+                    fila.appendChild(celda);
+                });
+                const celdaEstado = document.createElement("td");
+                celdaEstado.innerHTML = '<span class="etiqueta ' + s.estado + '">' + s.estado + '</span>';
+                fila.appendChild(celdaEstado);
+                tabla.appendChild(fila);
+            });
+        } catch (e) {
+            tabla.innerHTML = '<tr><td colspan="6">No se pudo conectar con la API</td></tr>';
+        }
+    }
+
+    async function reportar() {
+        try {
+            const s = JSON.parse(await enviar(API, "POST", {
+                equipoId: Number(document.getElementById("r-equipoId").value),
+                equipoNombre: document.getElementById("r-nombre").value,
+                ubicacion: document.getElementById("r-ubicacion").value,
+                descripcion: document.getElementById("r-descripcion").value
+            }));
+            mostrar("r-msg", "Solicitud " + s.id + " creada. El equipo quedó: " + s.equipo.estado, "ok");
+        } catch (e) { mostrar("r-msg", "Error: " + e.message, "error"); }
+    }
+
+    async function asignar() {
+        const id = document.getElementById("a-id").value;
+        try {
+            await enviar(API + "/" + id + "/tecnico", "PUT", {
+                tecnicoId: Number(document.getElementById("a-tecnicoId").value),
+                nombre: document.getElementById("a-nombre").value,
+                especialidad: document.getElementById("a-especialidad").value
+            });
+            mostrar("a-msg", "Técnico asignado a la solicitud " + id, "ok");
+        } catch (e) { mostrar("a-msg", "Error: " + e.message, "error"); }
+    }
+
+    async function finalizar() {
+        const id = document.getElementById("f-id").value;
+        try {
+            await enviar(API + "/" + id + "/finalizar", "PUT");
+            mostrar("f-msg", "Solicitud " + id + " finalizada. El equipo volvió a estar en servicio.", "ok");
+        } catch (e) { mostrar("f-msg", "Error: " + e.message, "error"); }
+    }
+
+    async function verReporte() {
+        const id = document.getElementById("g-id").value;
+        try {
+            mostrar("g-msg", await enviar(API + "/" + id + "/reporte", "GET"), "info");
+        } catch (e) { mostrar("g-msg", "Error: " + e.message, "error"); }
+    }
+
+    listar();
+</script>
+</body>
+</html>
