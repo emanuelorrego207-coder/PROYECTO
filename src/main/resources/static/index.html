@@ -67,10 +67,10 @@
         <!-- 2. REPORTAR -->
         <section id="reportar" class="seccion">
             <h2>Reportar una falla</h2>
-            <label>ID del equipo</label><input id="r-equipoId" type="number" value="1">
-            <label>Nombre del equipo</label><input id="r-nombre" value="Computador Dell">
-            <label>Ubicación</label><input id="r-ubicacion" value="Laboratorio de Sistemas">
-            <label>Descripción de la falla</label><input id="r-descripcion" value="El computador no enciende">
+            <label for="r-equipoId">ID del equipo</label><input id="r-equipoId" type="number" value="1">
+            <label for="r-nombre">Nombre del equipo</label><input id="r-nombre" value="Computador Dell">
+            <label for="r-ubicacion">Ubicación</label><input id="r-ubicacion" value="Laboratorio de Sistemas">
+            <label for="r-descripcion">Descripción de la falla</label><input id="r-descripcion" value="El computador no enciende">
             <button class="btn" onclick="reportar()">Reportar</button>
             <div id="r-msg"></div>
         </section>
@@ -78,10 +78,10 @@
         <!-- 3. ASIGNAR -->
         <section id="asignar" class="seccion">
             <h2>Asignar técnico</h2>
-            <label>ID de la solicitud</label><input id="a-id" type="number" value="3">
-            <label>ID del técnico</label><input id="a-tecnicoId" type="number" value="101">
-            <label>Nombre del técnico</label><input id="a-nombre" value="Juan Ríos">
-            <label>Especialidad</label><input id="a-especialidad" value="Hardware">
+            <label for="a-id">ID de la solicitud</label><input id="a-id" type="number" value="3">
+            <label for="a-tecnicoId">ID del técnico</label><input id="a-tecnicoId" type="number" value="101">
+            <label for="a-nombre">Nombre del técnico</label><input id="a-nombre" value="Juan Ríos">
+            <label for="a-especialidad">Especialidad</label><input id="a-especialidad" value="Hardware">
             <button class="btn" onclick="asignar()">Asignar</button>
             <div id="a-msg"></div>
         </section>
@@ -89,7 +89,7 @@
         <!-- 4. FINALIZAR -->
         <section id="finalizar" class="seccion">
             <h2>Finalizar mantenimiento</h2>
-            <label>ID de la solicitud</label><input id="f-id" type="number" value="3">
+            <label for="f-id">ID de la solicitud</label><input id="f-id" type="number" value="3">
             <button class="btn" onclick="finalizar()">Finalizar</button>
             <div id="f-msg"></div>
         </section>
@@ -97,7 +97,7 @@
         <!-- 5. REPORTE -->
         <section id="reporte" class="seccion">
             <h2>Generar reporte</h2>
-            <label>ID de la solicitud</label><input id="g-id" type="number" value="1">
+            <label for="g-id">ID de la solicitud</label><input id="g-id" type="number" value="1">
             <button class="btn" onclick="verReporte()">Ver reporte</button>
             <div id="g-msg"></div>
         </section>
