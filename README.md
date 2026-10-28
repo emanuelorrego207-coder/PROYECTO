@@ -60,17 +60,17 @@ gradlew.bat bootRun
 ./gradlew bootRun
 ```
 
-La aplicación queda disponible en **http://localhost:8080**.
+La aplicación queda disponible en **http://localhost:8081**.
 
-> Si aparece *"Port 8080 was already in use"*, detener la ejecución anterior o agregar `server.port=8081` en `src/main/resources/application.properties` y usar el puerto 8081.
+> El puerto se configura con `server.port` en `src/main/resources/application.properties`. Si aparece *"Port 8081 was already in use"*, detener la ejecución anterior o cambiar ese valor.
 
 ## Direcciones
 
 | Qué | URL |
 |-----|-----|
-| Lista de solicitudes | http://localhost:8080/api/solicitudes |
-| Reporte de la solicitud 1 | http://localhost:8080/api/solicitudes/1/reporte |
-| Consola H2 | http://localhost:8080/h2-console |
+| Lista de solicitudes | http://localhost:8081/api/solicitudes |
+| Reporte de la solicitud 1 | http://localhost:8081/api/solicitudes/1/reporte |
+| Consola H2 | http://localhost:8081/h2-console |
 
 **Consola H2:** JDBC URL `jdbc:h2:mem:mantenimientodb` · Usuario `sa` · Contraseña vacía.
 
@@ -88,7 +88,7 @@ La aplicación queda disponible en **http://localhost:8080**.
 
 **Reportar falla**
 ```http
-POST http://localhost:8080/api/solicitudes
+POST http://localhost:8081/api/solicitudes
 Content-Type: application/json
 
 {
@@ -101,7 +101,7 @@ Content-Type: application/json
 
 **Asignar técnico**
 ```http
-PUT http://localhost:8080/api/solicitudes/3/tecnico
+PUT http://localhost:8081/api/solicitudes/3/tecnico
 Content-Type: application/json
 
 {
@@ -113,15 +113,21 @@ Content-Type: application/json
 
 **Finalizar**
 ```http
-PUT http://localhost:8080/api/solicitudes/3/finalizar
+PUT http://localhost:8081/api/solicitudes/3/finalizar
 ```
 
 **Reporte**
 ```http
-GET http://localhost:8080/api/solicitudes/3/reporte
+GET http://localhost:8081/api/solicitudes/3/reporte
 ```
 
-Si se rompe una regla de negocio, la API responde **400** con el mensaje del error, por ejemplo `No se puede finalizar sin técnico asignado`.
+Si se rompe una regla de negocio, la API responde **400** con el mensaje del error, por ejemplo `No se puede finalizar sin técnico asignado`. Si la solicitud no existe, responde **404**.
+
+## Pruebas
+
+```bash
+./gradlew test
+```
 
 ## Datos de ejemplo
 
