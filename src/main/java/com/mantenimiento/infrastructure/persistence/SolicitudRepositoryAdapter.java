@@ -1,5 +1,6 @@
 package com.mantenimiento.infrastructure.persistence;
 
+import com.mantenimiento.domain.exception.SolicitudNoEncontradaException;
 import com.mantenimiento.domain.model.Equipo;
 import com.mantenimiento.domain.model.EstadoSolicitud;
 import com.mantenimiento.domain.model.SolicitudMantenimiento;
@@ -28,7 +29,7 @@ public class SolicitudRepositoryAdapter implements SolicitudRepository {
     @Override
     public SolicitudMantenimiento buscarPorId(Long id) {
         SolicitudEntity entity = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Solicitud no encontrada"));
+                .orElseThrow(() -> new SolicitudNoEncontradaException(id));
         return convertirADominio(entity);
     }
 
@@ -51,7 +52,7 @@ public class SolicitudRepositoryAdapter implements SolicitudRepository {
         entity.setEquipoUbicacion(s.getEquipo().getUbicacion());
         entity.setEquipoEnServicio(s.getEquipo().isEnServicio());
 
-        if (s.getTecnico() != null) {
+        if (s.tieneTecnico()) {
             entity.setTecnicoId(s.getTecnico().getId());
             entity.setTecnicoNombre(s.getTecnico().getNombre());
             entity.setTecnicoEspecialidad(s.getTecnico().getEspecialidad());
@@ -67,7 +68,7 @@ public class SolicitudRepositoryAdapter implements SolicitudRepository {
                 e.isEquipoEnServicio());
 
         Tecnico tecnico = null;
-        if (e.getTecnicoNombre() != null) {
+        if (e.getTecnicoNombre() != null && !e.getTecnicoNombre().isBlank()) {
             tecnico = new Tecnico(e.getTecnicoId(), e.getTecnicoNombre(), e.getTecnicoEspecialidad());
         }
 
