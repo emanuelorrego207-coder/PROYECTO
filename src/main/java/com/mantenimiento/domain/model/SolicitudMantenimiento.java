@@ -1,14 +1,22 @@
 package com.mantenimiento.domain.model;
 
+import com.mantenimiento.domain.exception.ReglaNegocioException;
+
 public class SolicitudMantenimiento implements Reportable {
 
-    private Long id;
-    private Equipo equipo;
-    private String descripcion;
+    private final Long id;
+    private final Equipo equipo;
+    private final String descripcion;
     private Tecnico tecnico;
     private EstadoSolicitud estado;
 
     public SolicitudMantenimiento(Long id, Equipo equipo, String descripcion) {
+        if (equipo == null) {
+            throw new ReglaNegocioException("El equipo es obligatorio");
+        }
+        if (descripcion == null || descripcion.isBlank()) {
+            throw new ReglaNegocioException("La descripción es obligatoria");
+        }
         this.id = id;
         this.equipo = equipo;
         this.descripcion = descripcion;
@@ -26,40 +34,52 @@ public class SolicitudMantenimiento implements Reportable {
     }
 
     public void asignarTecnico(Tecnico tecnico) {
-        if (estado == EstadoSolicitud.FINALIZADA) {
-            throw new IllegalStateException("La solicitud ya está finalizada");
+        if (tecnico == null) {
+            throw new ReglaNegocioException("Debe indicar un técnico");
+        }
+        if (estaFinalizada()) {
+            throw new ReglaNegocioException("La solicitud ya está finalizada");
         }
         this.tecnico = tecnico;
         this.estado = EstadoSolicitud.ASIGNADA;
     }
 
     public void finalizar() {
-        if (tecnico == null) {
-            throw new IllegalStateException("No se puede finalizar sin técnico asignado");
+        if (estaFinalizada()) {
+            throw new ReglaNegocioException("La solicitud ya está finalizada");
         }
-        if (estado == EstadoSolicitud.FINALIZADA) {
-            throw new IllegalStateException("La solicitud ya está finalizada");
+        if (!tieneTecnico()) {
+            throw new ReglaNegocioException("No se puede finalizar sin técnico asignado");
         }
         this.estado = EstadoSolicitud.FINALIZADA;
         this.equipo.ponerEnServicio();
     }
 
+    public boolean tieneTecnico() {
+        return tecnico != null;
+    }
+
+    public boolean estaFinalizada() {
+        return estado == EstadoSolicitud.FINALIZADA;
+    }
+
     @Override
     public String generarReporte() {
-        String reporte = "===== REPORTE =====\n"
-                + "Solicitud: " + id + "\n"
-                + "Equipo: " + equipo.getNombre() + "\n"
-                + "Ubicación: " + equipo.getUbicacion() + "\n"
-                + "Estado del equipo: " + equipo.getEstado() + "\n"
-                + "Descripción: " + descripcion + "\n"
-                + "Estado de la solicitud: " + estado + "\n";
+        StringBuilder reporte = new StringBuilder()
+                .append("===== REPORTE =====\n")
+                .append("Solicitud: ").append(id).append("\n")
+                .append("Equipo: ").append(equipo.getNombre()).append("\n")
+                .append("Ubicación: ").append(equipo.getUbicacion()).append("\n")
+                .append("Estado del equipo: ").append(equipo.getEstado()).append("\n")
+                .append("Descripción: ").append(descripcion).append("\n")
+                .append("Estado de la solicitud: ").append(estado).append("\n");
 
-        if (tecnico != null) {
-            reporte += tecnico.mostrarInformacion();
+        if (tieneTecnico()) {
+            reporte.append(tecnico.mostrarInformacion());
         } else {
-            reporte += "No hay técnico asignado.";
+            reporte.append("No hay técnico asignado.");
         }
-        return reporte;
+        return reporte.toString();
     }
 
     public Long getId() {
