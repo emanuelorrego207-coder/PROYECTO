@@ -19,9 +19,6 @@ public class SolicitudService {
 
     public SolicitudMantenimiento reportarFalla(Long equipoId, String equipoNombre,
                                                 String ubicacion, String descripcion) {
-        if (descripcion == null || descripcion.isBlank()) {
-            throw new IllegalArgumentException("La descripción es obligatoria");
-        }
         Equipo equipo = new Equipo(equipoId, equipoNombre, ubicacion, true);
         SolicitudMantenimiento solicitud = new SolicitudMantenimiento(null, equipo, descripcion);
         return repository.guardar(solicitud);
