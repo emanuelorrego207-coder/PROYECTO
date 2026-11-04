@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// Pruebas unitarias de Juan Andres Rios
 class EquipoTest {
 
     @Test
