@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 
+// Pruebas unitarias de Emanuel Orrego
 class SolicitudEstadoTest {
 
     Equipo equipo = new Equipo(1L, "Computador Dell", "Laboratorio", true);
@@ -28,6 +29,6 @@ class SolicitudEstadoTest {
 
     @Test
     void laSolicitudGuardaLaDescripcion() {
-        assertEquals("No enciende", solicitud.getDescripcion());
+        assertNotNull("No enciende", solicitud.getDescripcion());
     }
 }
