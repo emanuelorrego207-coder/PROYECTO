@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/solicitudes")
+@CrossOrigin(origins = "http://localhost:5173")
 public class SolicitudController {
 
     private final SolicitudService service;
