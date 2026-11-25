@@ -1,0 +1,167 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #eef2f7;
+  color: #1f2937;
+}
+
+/* ---------- Encabezado ---------- */
+.encabezado {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: white;
+  padding: 36px 20px 80px;
+}
+.encabezado-contenido {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.logo {
+  font-size: 34px;
+  background: rgba(255, 255, 255, 0.15);
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+}
+.encabezado h1 { margin: 0; font-size: 28px; }
+.encabezado p { margin: 4px 0 0; opacity: 0.85; }
+
+.contenedor {
+  max-width: 1000px;
+  margin: -50px auto 40px;
+  padding: 0 20px;
+}
+
+/* ---------- Resumen ---------- */
+.resumen {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.resumen-item {
+  background: white;
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+  border-top: 4px solid #2563eb;
+  display: flex;
+  flex-direction: column;
+}
+.resumen-item.PENDIENTE { border-top-color: #f59e0b; }
+.resumen-item.ASIGNADA { border-top-color: #3b82f6; }
+.resumen-item.FINALIZADA { border-top-color: #10b981; }
+.resumen-numero { font-size: 30px; font-weight: 700; }
+.resumen-texto { color: #6b7280; font-size: 14px; }
+
+/* ---------- Tarjetas ---------- */
+.lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+.tarjeta {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+  border-left: 6px solid #9ca3af;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.tarjeta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
+}
+.tarjeta.PENDIENTE { border-left-color: #f59e0b; }
+.tarjeta.ASIGNADA { border-left-color: #3b82f6; }
+.tarjeta.FINALIZADA { border-left-color: #10b981; }
+
+.tarjeta-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.numero { color: #9ca3af; font-weight: 600; }
+
+.tarjeta h2 { margin: 10px 0 4px; font-size: 20px; }
+.ubicacion { margin: 0; color: #6b7280; font-size: 14px; }
+
+.falla {
+  margin: 14px 0;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 3px solid #cbd5e1;
+  color: #374151;
+  font-style: italic;
+  flex: 1;
+}
+
+.estado {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.estado.PENDIENTE { background: #fef3c7; color: #92400e; }
+.estado.ASIGNADA { background: #dbeafe; color: #1e40af; }
+.estado.FINALIZADA { background: #d1fae5; color: #065f46; }
+
+.tarjeta-pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
+}
+.tecnico { display: flex; align-items: center; gap: 10px; }
+.tecnico strong { display: block; font-size: 14px; }
+.tecnico small { color: #6b7280; }
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+.sin-tecnico .avatar { background: #e5e7eb; color: #6b7280; }
+
+.equipo-estado {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+.equipo-estado.ok { background: #d1fae5; color: #065f46; }
+.equipo-estado.falla-on { background: #fee2e2; color: #991b1b; }
+
+/* ---------- Mensajes ---------- */
+.mensaje {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  text-align: center;
+  color: #6b7280;
+}
+.mensaje.error { background: #fee2e2; color: #991b1b; }
+
+@media (max-width: 700px) {
+  .resumen { grid-template-columns: repeat(2, 1fr); }
+  .encabezado h1 { font-size: 22px; }
+}
